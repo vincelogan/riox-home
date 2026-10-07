@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RioX Hub</title>
+<meta name="description" content="RioX Hub. Pessoas. Conexões. Impacto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --papel:#DCDED0;
+    --navy:#1C3B5E;
+    --dourado:#C6A256;
+    --dourado-escuro:#A9853E;
+    --texto:#33415A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background-color:var(--papel);
+    background-image:
+      radial-gradient(ellipse 120% 90% at 50% 38%, rgba(255,255,255,.32), rgba(255,255,255,0) 62%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+    font-family:'Archivo', system-ui, -apple-system, sans-serif;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  main{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:48px 24px 56px;
+    animation:surge 1.4s ease-out both;
+  }
+  @keyframes surge{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:none}
+  }
+  .logo{
+    width:min(74vw, 440px);
+    height:auto;
+    display:block;
+    -webkit-mask-image:radial-gradient(ellipse 68% 68% at 50% 50%, #000 55%, transparent 96%);
+            mask-image:radial-gradient(ellipse 68% 68% at 50% 50%, #000 55%, transparent 96%);
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+  .filete{
+    width:56px;
+    height:1px;
+    background:var(--dourado);
+    margin:34px 0 30px;
+  }
+  .mote{
+    font-size:clamp(1.15rem, 3.6vw, 1.6rem);
+    font-weight:500;
+    letter-spacing:.12em;
+    color:var(--dourado);
+    text-transform:none;
+  }
+  .mote span{white-space:nowrap}
+  .linkedin{
+    margin-top:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:44px;
+    opacity:.9;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .linkedin img{
+    width:22px;
+    height:22px;
+    display:block;
+  }
+  .linkedin:hover,
+  .linkedin:focus-visible{
+    opacity:.6;
+    outline:none;
+  }
+  @media (prefers-reduced-motion: reduce){
+    main{animation:none}
+  }
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" src="logo.jpg" alt="RioX Hub" width="1440" height="1422">
+  <div class="filete" aria-hidden="true"></div>
+  <p class="mote"><span>Pessoas.</span> <span>Conexões.</span> <span>Impacto.</span></p>
+  <!-- PENDENTE: substituir pela URL real da página do RioX Hub no LinkedIn antes de publicar -->
+  <a class="linkedin" href="https://www.linkedin.com/company/riox-hub" target="_blank" rel="noopener" aria-label="LinkedIn do RioX Hub">
+    <img src="https://cdn.simpleicons.org/linkedin/1C3B5E" alt="LinkedIn">
+  </a>
+</main>
+</body>
+</html>
