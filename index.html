@@ -17,7 +17,8 @@
     --texto:#33415A;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
+  html{height:100%}
+  body{min-height:100%}
   body{
     background-color:var(--papel);
     font-family:'Archivo', system-ui, -apple-system, sans-serif;
@@ -33,7 +34,8 @@
     flex-direction:column;
     align-items:center;
     text-align:center;
-    padding:48px 24px 56px;
+    padding:40px 24px 48px;
+    margin:auto;
     animation:surge 1.4s ease-out both;
   }
   @keyframes surge{
@@ -41,7 +43,7 @@
     to{opacity:1;transform:none}
   }
   .logo{
-    width:min(74vw, 440px);
+    width:min(74vw, 440px, 58vh);
     height:auto;
     display:block;
     -webkit-mask-image:radial-gradient(ellipse 68% 68% at 50% 50%, #000 55%, transparent 96%);
