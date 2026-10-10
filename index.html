@@ -6,8 +6,10 @@
 <title>RioX Hub | Pessoas. Conexões. Impacto.</title>
 <meta name="description" content="RioX Hub: o hub de negócios que conecta quem faz o Rio acontecer. Pessoas. Conexões. Impacto.">
 <link rel="canonical" href="https://riox.com.br/">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#DCDED0">
 
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
@@ -33,12 +35,27 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "RioX Hub",
-  "url": "https://riox.com.br/",
-  "logo": "https://riox.com.br/logo.png",
-  "description": "Hub empresarial premium e curado, sediado no Rio de Janeiro.",
-  "sameAs": ["https://www.linkedin.com/company/rioxhub/"]
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://riox.com.br/#website",
+      "name": "RioX Hub",
+      "alternateName": "RioX",
+      "url": "https://riox.com.br/",
+      "inLanguage": "pt-BR",
+      "publisher": { "@id": "https://riox.com.br/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://riox.com.br/#organization",
+      "name": "RioX Hub",
+      "url": "https://riox.com.br/",
+      "logo": "https://riox.com.br/icon-512.png",
+      "image": "https://riox.com.br/og.jpg",
+      "description": "Hub empresarial premium e curado, sediado no Rio de Janeiro.",
+      "sameAs": ["https://www.linkedin.com/company/rioxhub/"]
+    }
+  ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
