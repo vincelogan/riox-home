@@ -61,7 +61,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('js')</script>
+<script>if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('motion')}</script>
 <style>
   :root{
     --papel:#DCDED0;
@@ -70,6 +70,7 @@
     --dourado-escuro:#A9853E;
     --texto:#33415A;
     --linha:rgba(28,59,94,.16);
+    --suave:cubic-bezier(.16,1,.3,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{background-color:var(--papel)}
@@ -81,6 +82,7 @@
     text-rendering:optimizeLegibility;
   }
   a:focus-visible{outline:2px solid var(--navy);outline-offset:4px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
   /* Primeira tela */
   .hero{
@@ -90,6 +92,7 @@
     flex-direction:column;
     align-items:center;
   }
+  .hero::before{content:"";display:block;flex:none;height:88px}
   .hero-inner{
     display:flex;
     flex-direction:column;
@@ -97,11 +100,7 @@
     text-align:center;
     padding:40px 24px 48px;
     margin:auto;
-    animation:surge 1.4s ease-out both;
-  }
-  @keyframes surge{
-    from{opacity:0;transform:translateY(10px)}
-    to{opacity:1;transform:none}
+    transform-origin:50% 40%;
   }
   .hero h1{line-height:0;font-size:inherit}
   .logo{
@@ -122,7 +121,6 @@
     font-weight:500;
     letter-spacing:.12em;
     color:var(--dourado);
-    text-transform:none;
   }
   .mote span{white-space:nowrap}
   .social{
@@ -142,21 +140,14 @@
     opacity:.9;
     transition:opacity .25s ease;
   }
-  .social svg{
-    width:20px;
-    height:20px;
-    display:block;
-  }
+  .social svg{width:20px;height:20px;display:block}
   .social a:hover{opacity:.6}
-  .hero::before{content:"";display:block;flex:none;height:72px}
   .rolar{
     display:flex;
-    flex-direction:column;
+    flex:none;
     align-items:center;
     justify-content:center;
-    gap:10px;
-    flex:none;
-    height:48px;
+    height:64px;
     padding:0 16px;
     margin-bottom:24px;
     font-size:12px;
@@ -165,33 +156,16 @@
     text-transform:uppercase;
     color:var(--navy);
     text-decoration:none;
-    transition:opacity .25s ease;
   }
-  .rolar:hover{opacity:.7}
-
-  /* Losango e divisor */
-  .losango{
-    display:block;
-    flex:none;
-    width:7px;
-    height:7px;
-    background:var(--dourado);
-    transform:rotate(45deg);
-  }
-  .rolar .losango{width:6px;height:6px}
-  .divisor{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
-    margin-top:48px;
-  }
-  .divisor span{width:56px;height:1px;background:var(--dourado)}
+  .rolar-in{display:flex;flex-direction:column;align-items:center;gap:12px;transition:opacity .25s ease}
+  .rolar:hover .rolar-in{opacity:.7}
+  .trilho{position:relative;display:block;width:1px;height:28px;overflow:hidden;background:rgba(28,59,94,.18)}
+  .trilho::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--navy)}
 
   /* Secao sobre */
   .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
-  .sobre{padding-top:112px}
-  .bloco + .bloco{margin-top:112px}
+  .sobre{padding-top:72px}
+  .bloco + .bloco{margin-top:80px}
   .rotulo{
     font-size:12px;
     font-weight:600;
@@ -207,17 +181,17 @@
     font-size:clamp(2.4rem, 6vw, 4rem);
     line-height:1.08;
     color:var(--navy);
-    margin:18px 0 28px;
+    margin:14px 0 22px;
   }
   .corpo{
     max-width:58ch;
-    margin:0 auto 18px;
+    margin:0 auto 14px;
     font-size:18px;
     line-height:1.7;
     color:var(--texto);
   }
   .fecho{
-    margin-top:28px;
+    margin-top:22px;
     font-family:'Fraunces', Georgia, serif;
     font-style:italic;
     font-weight:400;
@@ -226,12 +200,19 @@
     color:var(--navy);
   }
   .pilares{display:grid;grid-template-columns:repeat(3, 1fr)}
-  .pilar{padding:8px 36px}
+  .pilar{position:relative;padding:4px 36px}
   .pilar:first-child{padding-left:0}
   .pilar:last-child{padding-right:0}
-  .pilar + .pilar{border-left:1px solid var(--linha)}
+  .pilar + .pilar::before{
+    content:"";
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:1px;
+    background:var(--linha);
+    transform-origin:top;
+  }
   .pilar h3{
-    margin:18px 0 12px;
+    margin:0 0 10px;
     font-family:'Fraunces', Georgia, serif;
     font-style:italic;
     font-weight:500;
@@ -241,39 +222,65 @@
   }
   .pilar p{font-size:16px;line-height:1.7;color:var(--texto)}
   .acesso{max-width:640px;margin:0 auto;text-align:center}
-  .acesso .principal{margin-top:18px;font-size:1.15rem;font-weight:500;line-height:1.5;color:var(--navy)}
-  .acesso .apoio{margin-top:10px;font-size:16px;line-height:1.7;color:var(--texto)}
-  .acesso .fecho{margin-top:36px;font-size:clamp(1.6rem, 3.5vw, 2.2rem)}
+  .acesso .principal{margin-top:14px;font-size:1.15rem;font-weight:500;line-height:1.5;color:var(--navy)}
+  .acesso .apoio{margin-top:8px;font-size:16px;line-height:1.7;color:var(--texto)}
+  .acesso .fecho{margin-top:28px;font-size:clamp(1.6rem, 3.5vw, 2.2rem)}
 
   /* Rodape */
   footer{
-    margin-top:112px;
+    margin-top:88px;
     border-top:1px solid var(--linha);
-    padding:40px 0 48px;
+    padding:32px 0 40px;
     text-align:center;
   }
   footer .social{margin-top:0}
-  .local{
-    margin-top:14px;
-    font-size:12px;
-    font-weight:500;
-    letter-spacing:.24em;
-    color:var(--texto);
-  }
+  .local{margin-top:12px;font-size:12px;font-weight:500;letter-spacing:.24em;color:var(--texto)}
 
-  /* Entrada dos blocos (so com JavaScript) */
-  .js .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease-out, transform .6s ease-out}
-  .js .reveal.is-visible{opacity:1;transform:none}
+  /* Movimento (so com JavaScript e sem pedido de reducao) */
+  .motion .hero .logo{animation:logoEntra 1.6s var(--suave) both}
+  .motion .hero .filete{animation:linhaEntra 1s var(--suave) .7s both}
+  .motion .hero .mote{animation:sobe 1.1s var(--suave) .9s both}
+  .motion .hero .social{animation:sobe 1.1s var(--suave) 1.1s both}
+  .motion .rolar-in{animation:surge 1.2s ease 1.6s both}
+  .motion .trilho::after{animation:desce 2.4s var(--suave) 2.2s infinite}
+  .motion .hero-inner,.motion .rolar{will-change:transform,opacity}
+  @keyframes logoEntra{from{opacity:0;transform:scale(1.06);filter:blur(12px)}to{opacity:1;transform:none;filter:blur(0)}}
+  @keyframes linhaEntra{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes sobe{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes surge{from{opacity:0}to{opacity:1}}
+  @keyframes desce{0%{top:-40%}55%,100%{top:100%}}
+
+  .motion .reveal{opacity:0;transform:translateY(32px);transition:opacity 1.1s var(--suave), transform 1.1s var(--suave)}
+  .motion .reveal.is-visible{opacity:1;transform:none}
+  .motion .reveal.atraso-1{transition-delay:.12s}
+  .motion .reveal.atraso-2{transition-delay:.24s}
+
+  .mascara{display:inline-block;overflow:hidden;vertical-align:bottom;padding:.14em .1em .1em;margin:-.14em -.1em -.1em}
+  .mascara > span{display:inline-block}
+  .motion .mascara > span{transform:translateY(110%);transition:transform 1.15s var(--suave)}
+  .motion [data-mascara].is-visible .mascara > span{transform:none}
+
+  .motion .realce .w{opacity:.16;transition:opacity .5s ease}
+  .motion .realce .w.on{opacity:1}
+
+  .motion .pilares .pilar{opacity:0;transform:translateY(32px);transition:opacity 1.1s var(--suave), transform 1.1s var(--suave)}
+  .motion .pilares.is-visible .pilar{opacity:1;transform:none}
+  .motion .pilares.is-visible .pilar:nth-child(2){transition-delay:.14s}
+  .motion .pilares.is-visible .pilar:nth-child(3){transition-delay:.28s}
+  .motion .pilares .pilar + .pilar::before{transform:scaleY(0);transition:transform 1.4s var(--suave) .3s}
+  .motion .pilares.is-visible .pilar + .pilar::before{transform:scaleY(1)}
 
   @media (max-width:767px){
-    .sobre{padding-top:72px}
-    .bloco + .bloco{margin-top:72px}
-    footer{margin-top:72px}
+    .sobre{padding-top:48px}
+    .bloco + .bloco{margin-top:56px}
+    footer{margin-top:64px}
     .corpo{font-size:16px}
     .pilares{grid-template-columns:1fr}
-    .pilar,.pilar:first-child,.pilar:last-child{padding:28px 0}
+    .pilar,.pilar:first-child,.pilar:last-child{padding:24px 0}
     .pilar:first-child{padding-top:0}
-    .pilar + .pilar{border-left:0;border-top:1px solid var(--linha)}
+    .pilar + .pilar::before{left:0;right:0;top:0;bottom:auto;width:auto;height:1px;transform-origin:left}
+    .motion .pilares .pilar + .pilar::before{transform:scaleX(0)}
+    .motion .pilares.is-visible .pilar + .pilar::before{transform:scaleX(1)}
   }
   @media (max-width:399px){
     .wrap{padding:0 16px}
@@ -283,10 +290,6 @@
   }
   @media (prefers-reduced-motion: no-preference){
     html{scroll-behavior:smooth}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .hero-inner{animation:none}
-    .js .reveal{opacity:1;transform:none;transition:none}
   }
 </style>
 </head>
@@ -306,45 +309,43 @@
     </a>
   </nav>
   </div>
-  <a class="rolar" href="#sobre">Conheça o RioX Hub<span class="losango" aria-hidden="true"></span></a>
+  <a class="rolar" href="#sobre"><span class="rolar-in">Conheça o RioX Hub<span class="trilho" aria-hidden="true"></span></span></a>
 </header>
 
 <main>
   <section id="sobre" class="sobre" aria-labelledby="sobre-titulo">
     <div class="wrap">
 
-      <div class="bloco manifesto reveal">
-        <p class="rotulo">O RioX Hub</p>
-        <h2 id="sobre-titulo">O Rio não morreu.</h2>
-        <p class="corpo">Durante anos, ganhou força a ideia de que o Rio tinha perdido relevância e de que era preciso sair da cidade para crescer. O RioX Hub nasce para afirmar outra visão.</p>
-        <p class="corpo">O Rio continua vivo, potente e estratégico. O que faltava era um ponto de encontro para quem lidera, constrói, investe e acredita na cidade, na empresa, na cultura, no esporte e nas instituições.</p>
-        <p class="fecho">O Rio está se reconectando.</p>
-        <div class="divisor" aria-hidden="true"><span></span><i class="losango"></i><span></span></div>
+      <div class="bloco manifesto">
+        <p class="rotulo reveal">O RioX Hub</p>
+        <h2 id="sobre-titulo" data-mascara>O Rio não morreu.</h2>
+        <div class="realce" data-realce>
+          <p class="corpo">Durante anos, ganhou força a ideia de que o Rio tinha perdido relevância e de que era preciso sair da cidade para crescer. O RioX Hub nasce para afirmar outra visão.</p>
+          <p class="corpo">O Rio continua vivo, potente e estratégico. O que faltava era um ponto de encontro para quem lidera, constrói, investe e acredita na cidade, na empresa, na cultura, no esporte e nas instituições.</p>
+        </div>
+        <p class="fecho" data-mascara>O Rio está se reconectando.</p>
       </div>
 
-      <div class="bloco pilares reveal">
+      <div class="bloco pilares">
         <div class="pilar">
-          <span class="losango" aria-hidden="true"></span>
           <h3>Pessoas.</h3>
           <p>Trajetórias distintas, unidas por um compromisso comum com o Rio. A qualidade de cada presença importa mais do que o número de participantes.</p>
         </div>
         <div class="pilar">
-          <span class="losango" aria-hidden="true"></span>
           <h3>Conexões.</h3>
           <p>Encontros reservados e o RioX Connect, a plataforma dos participantes, em fase de testes. Relações construídas com confiança e tempo, não com um cartão trocado.</p>
         </div>
         <div class="pilar">
-          <span class="losango" aria-hidden="true"></span>
           <h3>Impacto.</h3>
           <p>Ações coordenadas entre os participantes e apoio a iniciativas que façam diferença na cidade.</p>
         </div>
       </div>
 
-      <div class="bloco acesso reveal">
-        <h3 class="rotulo">Acesso</h3>
-        <p class="principal">O acesso ao RioX Hub é por convite. Não existe inscrição.</p>
-        <p class="apoio">Para quem tem vínculo real com o Rio: vive, empreende ou atua na cidade. Sem mensalidade.</p>
-        <p class="fecho">Não é sobre entrar. É sobre pertencer.</p>
+      <div class="bloco acesso">
+        <h3 class="rotulo reveal">Acesso</h3>
+        <p class="principal reveal atraso-1">O acesso ao RioX Hub é por convite. Não existe inscrição.</p>
+        <p class="apoio reveal atraso-2">Para quem tem vínculo real com o Rio: vive, empreende ou atua na cidade. Sem mensalidade.</p>
+        <p class="fecho" data-mascara>Não é sobre entrar. É sobre pertencer.</p>
       </div>
 
     </div>
@@ -352,7 +353,7 @@
 </main>
 
 <footer>
-  <div class="wrap">
+  <div class="wrap reveal">
     <nav class="social" aria-label="Redes sociais do RioX Hub, rodapé">
     <!-- Icones: Font Awesome Free (linkedin-in, instagram) - CC BY 4.0 - fontawesome.com -->
     <a href="https://www.linkedin.com/company/rioxhub/" target="_blank" rel="noopener" aria-label="LinkedIn do RioX Hub">
@@ -368,17 +369,82 @@
 
 <script>
 (function () {
-  var blocos = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    blocos.forEach(function (b) { b.classList.add('is-visible'); });
-    return;
-  }
+  var raiz = document.documentElement;
+  if (!raiz.classList.contains('motion')) return;
+
+  // Titulos que sobem palavra por palavra, de dentro de uma mascara
+  document.querySelectorAll('[data-mascara]').forEach(function (el) {
+    var texto = el.textContent.trim();
+    var leitor = document.createElement('span');
+    leitor.className = 'sr-only';
+    leitor.textContent = texto;
+    var visual = document.createElement('span');
+    visual.setAttribute('aria-hidden', 'true');
+    texto.split(' ').forEach(function (palavra, i, todas) {
+      var m = document.createElement('span');
+      m.className = 'mascara';
+      var s = document.createElement('span');
+      s.textContent = palavra;
+      s.style.transitionDelay = (i * 0.07) + 's';
+      m.appendChild(s);
+      visual.appendChild(m);
+      if (i < todas.length - 1) visual.appendChild(document.createTextNode(' '));
+    });
+    el.textContent = '';
+    el.appendChild(leitor);
+    el.appendChild(visual);
+  });
+
+  // Texto que acende palavra por palavra conforme a rolagem
+  var realces = [];
+  document.querySelectorAll('[data-realce]').forEach(function (bloco) {
+    var palavras = [];
+    bloco.querySelectorAll('p').forEach(function (p) {
+      var partes = p.textContent.trim().split(' ');
+      p.textContent = '';
+      partes.forEach(function (palavra, i) {
+        var w = document.createElement('span');
+        w.className = 'w';
+        w.textContent = palavra;
+        p.appendChild(w);
+        palavras.push(w);
+        if (i < partes.length - 1) p.appendChild(document.createTextNode(' '));
+      });
+    });
+    realces.push({ bloco: bloco, palavras: palavras });
+  });
+
+  // Entradas ao aparecer na tela
+  var alvos = document.querySelectorAll('.reveal, [data-mascara], .pilares');
   var io = new IntersectionObserver(function (entradas) {
     entradas.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-  blocos.forEach(function (b) { io.observe(b); });
+  }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+  alvos.forEach(function (a) { io.observe(a); });
+
+  // Primeira tela recua com a rolagem; texto do manifesto acende
+  var heroInner = document.querySelector('.hero-inner');
+  var rolar = document.querySelector('.rolar');
+  var pendente = false;
+  function quadro() {
+    pendente = false;
+    var vh = window.innerHeight;
+    var p = Math.min(Math.max(window.scrollY / (vh * 0.85), 0), 1);
+    heroInner.style.transform = 'translateY(' + (-p * 48).toFixed(1) + 'px) scale(' + (1 - p * 0.08).toFixed(4) + ')';
+    heroInner.style.opacity = (1 - p * 0.9).toFixed(3);
+    rolar.style.opacity = Math.max(0, 1 - p * 4).toFixed(3);
+    realces.forEach(function (r) {
+      var box = r.bloco.getBoundingClientRect();
+      var prog = (vh * 0.85 - box.top) / (box.height + vh * 0.3);
+      var acesas = Math.round(Math.min(Math.max(prog, 0), 1) * r.palavras.length * 1.1);
+      r.palavras.forEach(function (w, i) { w.classList.toggle('on', i < acesas); });
+    });
+  }
+  function agendar() { if (!pendente) { pendente = true; requestAnimationFrame(quadro); } }
+  window.addEventListener('scroll', agendar, { passive: true });
+  window.addEventListener('resize', agendar);
+  quadro();
 })();
 </script>
 </body>
