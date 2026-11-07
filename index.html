@@ -60,7 +60,8 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
 <style>
   :root{
     --papel:#DCDED0;
@@ -68,21 +69,28 @@
     --dourado:#C6A256;
     --dourado-escuro:#A9853E;
     --texto:#33415A;
+    --linha:rgba(28,59,94,.16);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{height:100%}
-  body{min-height:100%}
+  html{background-color:var(--papel)}
   body{
     background-color:var(--papel);
     font-family:'Archivo', system-ui, -apple-system, sans-serif;
     color:var(--navy);
-    display:flex;
-    align-items:center;
-    justify-content:center;
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
-  main{
+  a:focus-visible{outline:2px solid var(--navy);outline-offset:4px}
+
+  /* Primeira tela */
+  .hero{
+    min-height:100vh;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .hero-inner{
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -95,6 +103,7 @@
     from{opacity:0;transform:translateY(10px)}
     to{opacity:1;transform:none}
   }
+  .hero h1{line-height:0;font-size:inherit}
   .logo{
     width:min(74vw, 440px, 58vh);
     height:auto;
@@ -138,22 +147,156 @@
     height:20px;
     display:block;
   }
-  .social a:hover,
-  .social a:focus-visible{
-    opacity:.6;
-    outline:none;
+  .social a:hover{opacity:.6}
+  .hero::before{content:"";display:block;flex:none;height:72px}
+  .rolar{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex:none;
+    height:48px;
+    padding:0 16px;
+    margin-bottom:24px;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--navy);
+    text-decoration:none;
+    transition:opacity .25s ease;
+  }
+  .rolar:hover{opacity:.7}
+
+  /* Losango e divisor */
+  .losango{
+    display:block;
+    flex:none;
+    width:7px;
+    height:7px;
+    background:var(--dourado);
+    transform:rotate(45deg);
+  }
+  .rolar .losango{width:6px;height:6px}
+  .divisor{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-top:48px;
+  }
+  .divisor span{width:56px;height:1px;background:var(--dourado)}
+
+  /* Secao sobre */
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  .sobre{padding-top:112px}
+  .bloco + .bloco{margin-top:112px}
+  .rotulo{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--navy);
+  }
+  .manifesto{max-width:640px;margin:0 auto;text-align:center}
+  .manifesto h2{
+    font-family:'Fraunces', Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    line-height:1.08;
+    color:var(--navy);
+    margin:18px 0 28px;
+  }
+  .corpo{
+    max-width:58ch;
+    margin:0 auto 18px;
+    font-size:18px;
+    line-height:1.7;
+    color:var(--texto);
+  }
+  .fecho{
+    margin-top:28px;
+    font-family:'Fraunces', Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.4rem, 3vw, 1.8rem);
+    line-height:1.3;
+    color:var(--navy);
+  }
+  .pilares{display:grid;grid-template-columns:repeat(3, 1fr)}
+  .pilar{padding:8px 36px}
+  .pilar:first-child{padding-left:0}
+  .pilar:last-child{padding-right:0}
+  .pilar + .pilar{border-left:1px solid var(--linha)}
+  .pilar h3{
+    margin:18px 0 12px;
+    font-family:'Fraunces', Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.75rem;
+    line-height:1.2;
+    color:var(--navy);
+  }
+  .pilar p{font-size:16px;line-height:1.7;color:var(--texto)}
+  .acesso{max-width:640px;margin:0 auto;text-align:center}
+  .acesso .principal{margin-top:18px;font-size:1.15rem;font-weight:500;line-height:1.5;color:var(--navy)}
+  .acesso .apoio{margin-top:10px;font-size:16px;line-height:1.7;color:var(--texto)}
+  .acesso .fecho{margin-top:36px;font-size:clamp(1.6rem, 3.5vw, 2.2rem)}
+
+  /* Rodape */
+  footer{
+    margin-top:112px;
+    border-top:1px solid var(--linha);
+    padding:40px 0 48px;
+    text-align:center;
+  }
+  footer .social{margin-top:0}
+  .local{
+    margin-top:14px;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.24em;
+    color:var(--texto);
+  }
+
+  /* Entrada dos blocos (so com JavaScript) */
+  .js .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease-out, transform .6s ease-out}
+  .js .reveal.is-visible{opacity:1;transform:none}
+
+  @media (max-width:767px){
+    .sobre{padding-top:72px}
+    .bloco + .bloco{margin-top:72px}
+    footer{margin-top:72px}
+    .corpo{font-size:16px}
+    .pilares{grid-template-columns:1fr}
+    .pilar,.pilar:first-child,.pilar:last-child{padding:28px 0}
+    .pilar:first-child{padding-top:0}
+    .pilar + .pilar{border-left:0;border-top:1px solid var(--linha)}
+  }
+  @media (max-width:399px){
+    .wrap{padding:0 16px}
+  }
+  @media (max-height:780px){
+    .hero::before{height:0}
+  }
+  @media (prefers-reduced-motion: no-preference){
+    html{scroll-behavior:smooth}
   }
   @media (prefers-reduced-motion: reduce){
-    main{animation:none}
+    .hero-inner{animation:none}
+    .js .reveal{opacity:1;transform:none;transition:none}
   }
 </style>
 </head>
 <body>
-<main>
-  <img class="logo" src="logo.png" alt="RioX Hub" width="1100" height="1086">
-  <div class="filete" aria-hidden="true"></div>
-  <p class="mote"><span>Pessoas.</span> <span>Conexões.</span> <span>Impacto.</span></p>
-  <nav class="social" aria-label="Redes sociais do RioX Hub">
+<header class="hero">
+  <div class="hero-inner">
+    <h1><img class="logo" src="logo.png" alt="RioX Hub" width="1100" height="1086"></h1>
+    <div class="filete" aria-hidden="true"></div>
+    <p class="mote"><span>Pessoas.</span> <span>Conexões.</span> <span>Impacto.</span></p>
+    <nav class="social" aria-label="Redes sociais do RioX Hub">
     <!-- Icones: Font Awesome Free (linkedin-in, instagram) - CC BY 4.0 - fontawesome.com -->
     <a href="https://www.linkedin.com/company/rioxhub/" target="_blank" rel="noopener" aria-label="LinkedIn do RioX Hub">
       <svg viewBox="0 0 448 512" role="img" aria-hidden="true" focusable="false"><path fill="currentColor" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg>
@@ -162,6 +305,81 @@
       <svg viewBox="0 0 448 512" role="img" aria-hidden="true" focusable="false"><path fill="currentColor" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
     </a>
   </nav>
+  </div>
+  <a class="rolar" href="#sobre">Conheça o RioX Hub<span class="losango" aria-hidden="true"></span></a>
+</header>
+
+<main>
+  <section id="sobre" class="sobre" aria-labelledby="sobre-titulo">
+    <div class="wrap">
+
+      <div class="bloco manifesto reveal">
+        <p class="rotulo">O RioX Hub</p>
+        <h2 id="sobre-titulo">O Rio não morreu.</h2>
+        <p class="corpo">Durante anos, ganhou força a ideia de que o Rio tinha perdido relevância e de que era preciso sair da cidade para crescer. O RioX Hub nasce para afirmar outra visão.</p>
+        <p class="corpo">O Rio continua vivo, potente e estratégico. O que faltava era um ponto de encontro para quem lidera, constrói, investe e acredita na cidade, na empresa, na cultura, no esporte e nas instituições.</p>
+        <p class="fecho">O Rio está se reconectando.</p>
+        <div class="divisor" aria-hidden="true"><span></span><i class="losango"></i><span></span></div>
+      </div>
+
+      <div class="bloco pilares reveal">
+        <div class="pilar">
+          <span class="losango" aria-hidden="true"></span>
+          <h3>Pessoas.</h3>
+          <p>Trajetórias distintas, unidas por um compromisso comum com o Rio. A qualidade de cada presença importa mais do que o número de participantes.</p>
+        </div>
+        <div class="pilar">
+          <span class="losango" aria-hidden="true"></span>
+          <h3>Conexões.</h3>
+          <p>Encontros reservados e o RioX Connect, a plataforma dos participantes, em fase de testes. Relações construídas com confiança e tempo, não com um cartão trocado.</p>
+        </div>
+        <div class="pilar">
+          <span class="losango" aria-hidden="true"></span>
+          <h3>Impacto.</h3>
+          <p>Ações coordenadas entre os participantes e apoio a iniciativas que façam diferença na cidade.</p>
+        </div>
+      </div>
+
+      <div class="bloco acesso reveal">
+        <h3 class="rotulo">Acesso</h3>
+        <p class="principal">O acesso ao RioX Hub é por convite. Não existe inscrição.</p>
+        <p class="apoio">Para quem tem vínculo real com o Rio: vive, empreende ou atua na cidade. Sem mensalidade.</p>
+        <p class="fecho">Não é sobre entrar. É sobre pertencer.</p>
+      </div>
+
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <nav class="social" aria-label="Redes sociais do RioX Hub, rodapé">
+    <!-- Icones: Font Awesome Free (linkedin-in, instagram) - CC BY 4.0 - fontawesome.com -->
+    <a href="https://www.linkedin.com/company/rioxhub/" target="_blank" rel="noopener" aria-label="LinkedIn do RioX Hub">
+      <svg viewBox="0 0 448 512" role="img" aria-hidden="true" focusable="false"><path fill="currentColor" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/riox.hub/" target="_blank" rel="noopener" aria-label="Instagram do RioX Hub">
+      <svg viewBox="0 0 448 512" role="img" aria-hidden="true" focusable="false"><path fill="currentColor" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+    </a>
+  </nav>
+    <p class="local">RIO DE JANEIRO · 2026</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var blocos = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    blocos.forEach(function (b) { b.classList.add('is-visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  blocos.forEach(function (b) { io.observe(b); });
+})();
+</script>
 </body>
 </html>
