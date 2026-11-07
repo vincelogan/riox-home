@@ -9,6 +9,7 @@
  * - Loop automático (mesma coreografia do vídeo: passada principal + reflexo curto)
  * - Desktop: a luz segue o mouse sobre a logo
  * - Celular: um toque na logo dispara um reflexo
+ * - O mote "Pessoas. Conexões. Impacto." ganha um brilho dourado logo depois do X
  * - Pausa fora da tela e em aba oculta; não roda com redução de movimento
  * - Sem WebGL2 ou se algo falhar, o <img> continua lá, intacto
  *
@@ -34,6 +35,32 @@ const PASSADAS = [
   { inicio: 0.8, fim: 3.1, amplitude: 1.0, largura: 33.6 },
   { inicio: 4.5, fim: 5.55, amplitude: 0.7, largura: 18.3 },
 ];
+
+/** Brilho no mote "Pessoas. Conexões. Impacto.": logo depois da luz passar pelo X, ela desce para as palavras. */
+const MOTE = { inicio: 2.2, fim: 4.6 };
+let animacaoMote: Animation | null = null;
+
+function animarMote(inicioDoCiclo: number): void {
+  const mote = document.querySelector<HTMLElement>('.mote');
+  if (!mote || typeof mote.animate !== 'function' || typeof CSS === 'undefined') return;
+  if (!CSS.supports('background-clip', 'text') && !CSS.supports('-webkit-background-clip', 'text')) return;
+  mote.classList.add('mote-dourada');
+  animacaoMote = mote.animate(
+    [
+      { backgroundPosition: '100% 0', offset: 0 },
+      { backgroundPosition: '100% 0', offset: MOTE.inicio / CICLO, easing: 'cubic-bezier(.3, 0, .7, 1)' },
+      { backgroundPosition: '0% 0', offset: MOTE.fim / CICLO },
+      { backgroundPosition: '0% 0', offset: 1 },
+    ],
+    { duration: CICLO * 1000, iterations: Infinity, id: 'mote-dourada' },
+  );
+  sincronizarMote(inicioDoCiclo);
+}
+
+/** Alinha o brilho do mote ao mesmo relógio da luz no X (performance.now e a linha do tempo do documento têm a mesma origem). */
+function sincronizarMote(inicioDoCiclo: number): void {
+  if (animacaoMote) animacaoMote.startTime = inicioDoCiclo + ATRASO_INICIAL * 1000;
+}
 
 interface Luz {
   s: number; // posição do centro do feixe ao longo da varredura
@@ -317,7 +344,12 @@ class BrilhoX {
     const t = this.tempoNoCiclo(performance.now());
     if (t >= PASSADAS[0].inicio && t <= PASSADAS[0].fim) return;
     this.inicio = performance.now() - (ATRASO_INICIAL + PASSADAS[0].inicio - 0.05) * 1000;
+    sincronizarMote(this.inicio);
     this.agendar();
+  }
+
+  get inicioDoCiclo(): number {
+    return this.inicio;
   }
 
   private tempoNoCiclo(agora: number): number {
@@ -402,7 +434,9 @@ function iniciarBrilhoX(): void {
   const img = document.querySelector<HTMLImageElement>('img[data-brilho-x]');
   if (!img || !img.parentElement) return;
   if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  new BrilhoX(img).iniciar().catch((erro) => console.warn('[brilho-x]', erro));
+  const brilho = new BrilhoX(img);
+  animarMote(brilho.inicioDoCiclo); // roda mesmo se o aparelho não tiver WebGL2
+  brilho.iniciar().catch((erro) => console.warn('[brilho-x]', erro));
 }
 
 if (document.readyState === 'loading') {

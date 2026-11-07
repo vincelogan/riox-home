@@ -75,6 +75,7 @@
     --navy:#1C3B5E;
     --dourado:#C6A256;
     --dourado-escuro:#A9853E;
+    --dourado-texto:#7A5C24;
     --texto:#33415A;
     --linha:rgba(28,59,94,.16);
     --suave:cubic-bezier(.16,1,.3,1);
@@ -131,9 +132,24 @@
     font-size:clamp(1.15rem, 3.6vw, 1.6rem);
     font-weight:500;
     letter-spacing:.12em;
-    color:var(--dourado);
+    color:var(--dourado-texto);
   }
   .mote span{white-space:nowrap}
+  /* Brilho dourado que percorre o mote, sincronizado com a luz no X (ver /src/x-brilho.ts) */
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    .mote.mote-dourada{
+      background-image:linear-gradient(100deg,
+        var(--dourado-texto) 0%, var(--dourado-texto) 41%,
+        #A57A2C 45.5%, #CFA24A 48.4%, #E9C875 49.6%, #F4DE9E 50%, #E9C875 50.4%, #CFA24A 51.6%, #A57A2C 54.5%,
+        var(--dourado-texto) 59%, var(--dourado-texto) 100%);
+      background-size:300% 100%;
+      background-position:100% 0;
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      color:transparent;
+    }
+  }
   .social{
     margin-top:44px;
     display:flex;
